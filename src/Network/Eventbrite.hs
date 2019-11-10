@@ -2,6 +2,11 @@
 module Network.Eventbrite
   ( cliMain
   , getAttendees
+  , Pagination(..)
+  , Attendee(..)
+  , AttendeeCosts(..)
+  , Currency(..)
+  , Profile(..)
   )
 where
 
