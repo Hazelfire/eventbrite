@@ -111,7 +111,6 @@ getAttendees authToken event continuation = do
     Left  err           -> return . Left $ show err
     Right attendeesList -> case paginationContinuation $ responsePagination attendeesList of
         Just token -> do
-          putStrLn token
           otherAttendeesResponse <- getAttendees authToken event (Just token)
           case otherAttendeesResponse of
             Left err -> return . Left $ err
