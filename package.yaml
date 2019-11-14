@@ -27,6 +27,16 @@ dependencies:
   - text
   - bytestring
 
+ghc-options:
+  - -Wall
+  - -Wincomplete-uni-patterns
+  - -Wincomplete-record-updates
+  - -Wcompat
+  - -Widentities
+  - -Wredundant-constraints
+  - -Wmissing-export-lists
+  - -Wpartial-fields
+
 library:
   source-dirs: src
 
