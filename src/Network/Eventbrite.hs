@@ -69,13 +69,16 @@ instance FromJSON Currency where
 
 data AttendeeCosts = AttendeeCosts {
   costsBasePrice :: Currency,
-  costsGross :: Currency
+  costsGross :: Currency,
+  costsEventbrite :: Currency,
+  costsPaymentFee :: Currency,
+  costsTax :: Currency
 }
   deriving (Show)
 
 instance FromJSON AttendeeCosts where
   parseJSON = withObject "AttendeeCosts"
-    $ \v -> AttendeeCosts <$> v .: "base_price" <*> v .: "gross"
+    $ \v -> AttendeeCosts <$> v .: "base_price" <*> v .: "gross" <*> v .: "eventbrite_fee" <*> v .: "payment_fee" <*> v .: "tax"
 
 data Attendee = Attendee {
   attendeeId :: String,
@@ -145,7 +148,6 @@ cliMain = do
         "Missing environment variables CSIT_EVENTBRITE_TOKEN and BOAT_PARTY_EVENT"
 
 printAttendees :: [Attendee] -> IO ()
-printAttendees = mapM_ (\attendee -> do
-    putStrLn . profileName . attendeeProfile $ attendee
-    print . currencyValue . costsGross . attendeeCosts $ attendee)
+printAttendees = mapM_ (
+    putStrLn . profileName . attendeeProfile)
   . sortOn (profileLastName . attendeeProfile)
