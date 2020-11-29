@@ -40,17 +40,6 @@ ghc-options:
 library:
   source-dirs: src
 
-executables:
-  eventbrite-exe:
-    main: Main.hs
-    source-dirs: app
-    ghc-options:
-      - -threaded
-      - -rtsopts
-      - -with-rtsopts=-N
-    dependencies:
-      - eventbrite
-
 tests:
   eventbrite-test:
     main: Spec.hs

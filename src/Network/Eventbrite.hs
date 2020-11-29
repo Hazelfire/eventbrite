@@ -1,7 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Network.Eventbrite
-  ( cliMain
-  , getAttendees
+  ( getAttendees
   , Pagination(..)
   , Attendee(..)
   , AttendeeCosts(..)
@@ -130,24 +129,3 @@ getAttendees authToken event continuation = do
       &  W.header "Authorization"
       .~ [BS.intercalate " " ["Bearer", BS.pack authToken]]
 
-
--- | My own boat party main method
-cliMain :: IO ()
-cliMain = do
-  putStrLn "Getting Attendees for boat party"
-  eventbriteToken <- lookupEnv "CSIT_EVENTBRITE_TOKEN"
-  boatPartyId     <- lookupEnv "BOAT_PARTY_EVENT"
-  case (eventbriteToken, boatPartyId) of
-    (Just token, Just eventId) -> do
-      response <- getAttendees token eventId Nothing
-      case response of
-        Left err -> putStrLn $ "Could not decode response " ++ show err
-        Right attendeesList -> printAttendees attendeesList
-    _ ->
-      putStrLn
-        "Missing environment variables CSIT_EVENTBRITE_TOKEN and BOAT_PARTY_EVENT"
-
-printAttendees :: [Attendee] -> IO ()
-printAttendees = mapM_ (
-    putStrLn . profileName . attendeeProfile)
-  . sortOn (profileLastName . attendeeProfile)
